@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spider-Man: No Way Home</title>
+    <style>
+        #video-container {
+            position: relative;
+            width: 800px;
+            height: 450px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Watch Spider-Man: No Way Home  t1</h1>
+    <h1>Watch Spider-Man: No Way Home T2</h1>
     <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
     
     <!-- Placeholder for iframe -->
@@ -19,7 +31,7 @@
             iframe.src = "https://embed.su/embed/movie/634649"; // Use your TMDb ID for Spider-Man: No Way Home
             iframe.width = "800";
             iframe.height = "450";
-            iframe.frameBorder = "0"; // Do not set the sandbox
+            iframe.frameBorder = "0"; // No border around iframe
             iframe.allow = "autoplay; fullscreen";
             iframe.referrerpolicy = "no-referrer"; // Prevent passing referrer
 
@@ -30,28 +42,25 @@
         // Call function to create iframe when the page is loaded
         window.onload = createIframe;
 
-        // Optional: Monitor clicks inside iframe container to block redirection
+        // Optional: Monitor clicks inside iframe container to block unwanted redirections
         document.getElementById("video-container").addEventListener("click", function(event) {
             var clickedElement = event.target;
 
-            // Check if a link inside the iframe is clicked, and prevent it
+            // Check if a link inside the iframe is clicked, and prevent it from redirecting to a new tab
             if (clickedElement.tagName === 'A') {
-                // Block specific redirects by checking the href
-                var url = clickedElement.href;
-                if (url && url.includes("example.com")) {  // Block any specific URL that causes redirection
-                    event.preventDefault(); // Prevent any link redirection
-                    alert("Redirect blocked to " + url);
-                }
+                // Prevent default link action (no redirection)
+                event.preventDefault();
+                console.log("Redirection blocked: " + clickedElement.href);
             }
         });
 
-        // Prevent popups or redirects triggered by window.open in the iframe
+        // Intercept window.open function to block opening new tabs
         window.open = function(url, name, specs) {
-            if (url.includes("example.com")) {  // Modify to block specific redirects
-                alert("Blocked redirection attempt");
+            if (url.includes("example.com")) {  // Modify condition to block specific URLs
+                alert("Blocked opening new tab for: " + url);
                 return null;  // Block the redirection
             } else {
-                return window.open.apply(window, arguments);  // Open other links normally
+                return window.open.apply(window, arguments);  // Allow opening other links
             }
         };
     </script>
