@@ -4,24 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spider-Man: No Way Home</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 20px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.2em;
+            text-align: center;
+            margin: 10px 20px;
+        }
+
+        /* Main Content Section */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .video-container {
+                padding-bottom: 56.25%; /* 16:9 aspect ratio for mobile */
+            }
+        }
+
+        /* Fullscreen Mode on mobile rotation */
+        @media screen and (orientation: landscape) {
+            iframe {
+                width: 100%;
+                height: 100vh; /* Full screen on landscape */
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Watch Spider-Man: No Way Home</h1>
-    <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
-    
-    <iframe 
-        src="https://embed.su/embed/movie/634649" 
-        width="800" 
-        height="450" 
-        frameborder="0" 
-        allow="autoplay; fullscreen"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
-    </iframe>
-    
+    <div class="content-container">
+        <h1>Watch Spider-Man: No Way Home</h1>
+        <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
+
+        <!-- Video Container -->
+        <div class="video-container">
+            <iframe 
+                src="https://embed.su/embed/movie/634649" 
+                allow="autoplay; fullscreen">
+            </iframe>
+        </div>
+    </div>
+
     <script>
         // Optional: Monitor iframe click to prevent propagation or redirection
         document.querySelector('iframe').addEventListener('click', function(event) {
             event.stopPropagation(); // Prevent any redirection event inside iframe
+        });
+
+        // Optional: You can add event listeners for mobile fullscreen functionality
+        window.addEventListener('orientationchange', function() {
+            if (window.innerWidth > window.innerHeight) {
+                // Landscape mode: Video will fill the screen
+                document.querySelector('iframe').style.height = "100vh";
+            } else {
+                // Portrait mode: Regular aspect ratio
+                document.querySelector('iframe').style.height = "80vh";
+            }
         });
     </script>
 </body>
