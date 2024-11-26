@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spider-Man: No Way Home</title>
+</head>
+<body>
+    <h1>Watch Spider-Man: No Way Home</h1>
+    <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
+    
+    <!-- Placeholder for iframe -->
+    <div id="video-container"></div>
+
+    <script>
+        // Dynamically inject the iframe without sandbox attribute
+        function createIframe() {
+            var iframe = document.createElement('iframe');
+            iframe.src = "https://embed.su/embed/movie/634649"; // Use your TMDb ID for Spider-Man: No Way Home
+            iframe.width = "800";
+            iframe.height = "450";
+            iframe.frameBorder = "0"; // Do not set the sandbox
+            iframe.allow = "autoplay; fullscreen";
+
+            // Append the iframe to the container
+            document.getElementById("video-container").appendChild(iframe);
+        }
+
+        // Call function to create iframe when the page is loaded
+        window.onload = createIframe;
+
+        // Optional: Monitor clicks inside iframe container
+        document.getElementById("video-container").addEventListener("click", function(event) {
+            var clickedElement = event.target;
+            
+            // Check if a link inside the iframe is clicked, and prevent it
+            if (clickedElement.tagName === 'A') {
+                event.preventDefault(); // Stop any link redirection
+            }
+        });
+    </script>
+</body>
+</html>
