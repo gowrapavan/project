@@ -6,7 +6,7 @@
     <title>Spider-Man: No Way Home</title>
 </head>
 <body>
-    <h1>Watch Spider-Man: No Way Home</h1>
+    <h1>Watch Spider-Man: No Way Home  t1</h1>
     <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
     
     <!-- Placeholder for iframe -->
@@ -21,6 +21,7 @@
             iframe.height = "450";
             iframe.frameBorder = "0"; // Do not set the sandbox
             iframe.allow = "autoplay; fullscreen";
+            iframe.referrerpolicy = "no-referrer"; // Prevent passing referrer
 
             // Append the iframe to the container
             document.getElementById("video-container").appendChild(iframe);
@@ -29,15 +30,30 @@
         // Call function to create iframe when the page is loaded
         window.onload = createIframe;
 
-        // Optional: Monitor clicks inside iframe container
+        // Optional: Monitor clicks inside iframe container to block redirection
         document.getElementById("video-container").addEventListener("click", function(event) {
             var clickedElement = event.target;
-            
+
             // Check if a link inside the iframe is clicked, and prevent it
             if (clickedElement.tagName === 'A') {
-                event.preventDefault(); // Stop any link redirection
+                // Block specific redirects by checking the href
+                var url = clickedElement.href;
+                if (url && url.includes("example.com")) {  // Block any specific URL that causes redirection
+                    event.preventDefault(); // Prevent any link redirection
+                    alert("Redirect blocked to " + url);
+                }
             }
         });
+
+        // Prevent popups or redirects triggered by window.open in the iframe
+        window.open = function(url, name, specs) {
+            if (url.includes("example.com")) {  // Modify to block specific redirects
+                alert("Blocked redirection attempt");
+                return null;  // Block the redirection
+            } else {
+                return window.open.apply(window, arguments);  // Open other links normally
+            }
+        };
     </script>
 </body>
 </html>
