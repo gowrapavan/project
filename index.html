@@ -5,63 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spider-Man: No Way Home</title>
     <style>
+            /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        p {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #b3b3b3;
+        }
+
+        /* Video Container */
         #video-container {
             position: relative;
-            width: 800px;
-            height: 450px;
+            width: 100%;
+            max-width: 1200px;
+            height: 675px; /* Aspect ratio of 16:9 for video */
+            background-color: #000;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
         }
+
+        /* Hover Effect */
+        #video-container:hover {
+            transform: scale(1.05);
+        }
+
         iframe {
             width: 100%;
             height: 100%;
             border: none;
+            border-radius: 10px;
         }
+
+        /* Netflix-Like Controls - Just for visualization */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+        }
+
+        .control-btn {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .control-btn:focus {
+            outline: none;
+        }
+
+        /* Bottom Bar for text */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bottom-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: normal;
+        }
+
+        .bottom-bar a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Watch Spider-Man: No Way Home T2</h1>
+    <h1>Watch Spider-Man: No Way Home t3</h1>
     <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
     
-    <!-- Placeholder for iframe -->
-    <div id="video-container"></div>
+    <!-- Video container where the iframe will be embedded -->
+    <div id="video-container">
+        <iframe id="video-frame" src="https://embed.su/embed/movie/634649" allow="autoplay; fullscreen" frameborder="0"></iframe>
+    </div>
 
     <script>
-        // Dynamically inject the iframe without sandbox attribute
-        function createIframe() {
-            var iframe = document.createElement('iframe');
-            iframe.src = "https://embed.su/embed/movie/634649"; // Use your TMDb ID for Spider-Man: No Way Home
-            iframe.width = "800";
-            iframe.height = "450";
-            iframe.frameBorder = "0"; // No border around iframe
-            iframe.allow = "autoplay; fullscreen";
-            iframe.referrerpolicy = "no-referrer"; // Prevent passing referrer
-
-            // Append the iframe to the container
-            document.getElementById("video-container").appendChild(iframe);
-        }
-
-        // Call function to create iframe when the page is loaded
-        window.onload = createIframe;
-
-        // Optional: Monitor clicks inside iframe container to block unwanted redirections
-        document.getElementById("video-container").addEventListener("click", function(event) {
+        // Function to prevent redirection or any links opening in a new tab from the iframe
+        function blockRedirection(event) {
+            // Check if the click happened inside the iframe container
             var clickedElement = event.target;
 
-            // Check if a link inside the iframe is clicked, and prevent it from redirecting to a new tab
+            // Check if the clicked element is a link inside the iframe
             if (clickedElement.tagName === 'A') {
-                // Prevent default link action (no redirection)
-                event.preventDefault();
-                console.log("Redirection blocked: " + clickedElement.href);
+                event.preventDefault(); // Prevent redirection
+                console.log("Blocked redirection: " + clickedElement.href);
             }
+        }
+
+        // Ensure the video container functions without redirecting
+        document.getElementById('video-container').addEventListener('click', function(event) {
+            blockRedirection(event);
         });
 
-        // Intercept window.open function to block opening new tabs
+        // Additional: Disable window.open calls inside iframe
+        // Override window.open to prevent popups
         window.open = function(url, name, specs) {
-            if (url.includes("example.com")) {  // Modify condition to block specific URLs
-                alert("Blocked opening new tab for: " + url);
+            // Prevent opening a new tab if the URL matches any condition
+            if (url.includes("example.com")) {  // Add your own conditions here
+                alert("Blocked attempt to open new tab: " + url);
                 return null;  // Block the redirection
-            } else {
-                return window.open.apply(window, arguments);  // Allow opening other links
             }
+            // Allow opening other links
+            return window.open.apply(window, arguments);
         };
     </script>
 </body>
