@@ -4,64 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spider-Man: No Way Home</title>
-    <style>
-        /* Container for the embedded video */
-        #video-container {
-            position: relative;
-            width: 800px;
-            height: 450px;
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: black;
-        }
-
-        /* Ensures iframe takes up full container area */
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
 </head>
 <body>
     <h1>Watch Spider-Man: No Way Home</h1>
     <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
     
-    <!-- Video container where the iframe will be embedded -->
-    <div id="video-container">
-        <!-- Dynamic iframe will be inserted here -->
-    </div>
-
+    <iframe 
+        src="https://embed.su/embed/movie/634649" 
+        width="800" 
+        height="450" 
+        frameborder="0" 
+        allow="autoplay; fullscreen"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
+    </iframe>
+    
     <script>
-        // Function to create the iframe dynamically
-        function createIframe() {
-            var iframe = document.createElement('iframe');
-            iframe.src = "https://embed.su/embed/movie/634649"; // Replace with your TMDb ID for Spider-Man: No Way Home
-            iframe.allow = "autoplay; fullscreen";
-            iframe.frameBorder = "0";
-
-            // Append iframe to the video container
-            document.getElementById('video-container').appendChild(iframe);
-        }
-
-        // Block any links that try to open a new tab or window
-        function blockExternalLinks(event) {
-            var clickedElement = event.target;
-
-            // If the clicked element is a link, prevent the default action
-            if (clickedElement.tagName === 'A') {
-                event.preventDefault();
-                console.log("Blocked external link:", clickedElement.href);
-            }
-        }
-
-        // Listen to clicks within the video container and block unwanted redirects
-        document.getElementById('video-container').addEventListener('click', blockExternalLinks);
-
-        // Call function to create iframe on page load
-        window.onload = function() {
-            createIframe();
-        };
+        // Optional: Monitor iframe click to prevent propagation or redirection
+        document.querySelector('iframe').addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent any redirection event inside iframe
+        });
     </script>
 </body>
 </html>
