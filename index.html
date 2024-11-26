@@ -20,19 +20,6 @@
             width: 100%;
             height: 100%;
             border: none;
-            pointer-events: auto;  /* Allow interaction with iframe content */
-        }
-
-        /* Overlay to block unwanted redirections */
-        #block-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.3);
-            z-index: 999; /* On top of the iframe */
-            pointer-events: none;  /* Allow iframe to be interacted with normally */
         }
     </style>
 </head>
@@ -43,49 +30,37 @@
     <!-- Video container where the iframe will be embedded -->
     <div id="video-container">
         <!-- Dynamic iframe will be inserted here -->
-        <div id="block-overlay"></div> <!-- Overlay to prevent unwanted redirection -->
     </div>
 
     <script>
         // Function to create the iframe dynamically
         function createIframe() {
             var iframe = document.createElement('iframe');
-            iframe.src = "https://embed.su/embed/movie/634649"; // Spider-Man: No Way Home movie URL (Replace with your TMDb ID)
+            iframe.src = "https://embed.su/embed/movie/634649"; // Replace with your TMDb ID for Spider-Man: No Way Home
             iframe.allow = "autoplay; fullscreen";
-            iframe.sandbox = "allow-scripts allow-same-origin allow-popups"; // Secure sandbox with restricted features
             iframe.frameBorder = "0";
 
             // Append iframe to the video container
             document.getElementById('video-container').appendChild(iframe);
         }
 
-        // Blocking of links inside the iframe container
-        function preventRedirection(event) {
+        // Block any links that try to open a new tab or window
+        function blockExternalLinks(event) {
             var clickedElement = event.target;
 
-            // If the click is a link (anchor tag)
+            // If the clicked element is a link, prevent the default action
             if (clickedElement.tagName === 'A') {
-                event.preventDefault(); // Block redirection
-                console.log("Blocked redirection: " + clickedElement.href);
+                event.preventDefault();
+                console.log("Blocked external link:", clickedElement.href);
             }
         }
 
-        // Event listener to handle click events inside the container
-        document.getElementById('video-container').addEventListener('click', preventRedirection);
+        // Listen to clicks within the video container and block unwanted redirects
+        document.getElementById('video-container').addEventListener('click', blockExternalLinks);
 
-        // Insert iframe when the page loads
+        // Call function to create iframe on page load
         window.onload = function() {
             createIframe();
-        };
-
-        // Custom method to prevent popups or new tabs being opened
-        window.open = function(url, name, specs) {
-            // Block specific redirects by checking URL
-            if (url.includes("https://unwanted.com")) { // Replace with any unwanted URL pattern
-                alert("Blocked a redirection attempt to: " + url);
-                return null; // Block the opening of a new tab
-            }
-            return window.open.apply(window, arguments); // Allow other links
         };
     </script>
 </body>
