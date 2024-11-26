@@ -5,94 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spider-Man: No Way Home</title>
     <style>
-/* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #141414;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: #b3b3b3;
-            margin-bottom: 30px;
-        }
-
         /* Container for the embedded video */
         #video-container {
             position: relative;
-            width: 100%;
-            max-width: 800px; /* Maximum width for larger screens */
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            background-color: #000;
+            width: 800px;
+            height: 450px;
             overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+            border: 1px solid #ccc;
+            background-color: black;
         }
 
         /* Ensures iframe takes up full container area */
         iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: none;
-            pointer-events: auto;
-        }
-
-        /* Overlay to block unwanted redirections */
-        #block-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.3);
-            z-index: 999;
-            pointer-events: none;
-        }
-
-        /* Responsive Design for Mobile and Tablet */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            #video-container {
-                max-width: 100%;
-                padding-bottom: 56.25%; /* Aspect ratio for smaller screens */
-            }
-        }
-
-        @media (max-width: 1024px) {
-            #video-container {
-                max-width: 90%; /* Slightly larger for tablets */
-            }
-        }
-
-        /* Add a transition for smoother resizing */
-        #video-container {
-            transition: width 0.5s ease, height 0.5s ease;
+            pointer-events: auto;  /* Allow interaction with iframe content */
         }
 
         /* Overlay to block unwanted redirections */
@@ -109,7 +37,7 @@
     </style>
 </head>
 <body>
-    <h1>Watch Spider-Man: No Way Home T4</h1>
+    <h1>Watch Spider-Man: No Way Home</h1>
     <p>Click the video controls to play, pause, or adjust the volume without any redirections.</p>
     
     <!-- Video container where the iframe will be embedded -->
